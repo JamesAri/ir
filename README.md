@@ -1,8 +1,10 @@
 ### How to run:
 
 ```bash
-pip install -r requirements.txt
-cd zh_burza
+python3 -m venv venv &&
+source venv/bin/activate &&
+pip install -r requirements.txt &&
+cd zh_burza &&
 scrapy crawl zh_burza_spider -o data/output.json -s JOBDIR=crawls/zh_burza_job
 ```
 
