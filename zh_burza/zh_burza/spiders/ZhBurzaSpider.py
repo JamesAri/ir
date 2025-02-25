@@ -2,6 +2,8 @@ from scrapy import signals
 from scrapy.spiders import Spider
 from scrapy.http import Request
 import sys
+from scrapy_playwright.page import PageMethod
+
 
 from io import StringIO
 from html.parser import HTMLParser
@@ -36,6 +38,7 @@ PAGINATION_TEMPLATE = 'https://www.zatrolene-hry.cz/bazar/?pg={page}'
 
 class ZhBurzaSpider(Spider):
     name = "zh_burza_spider"
+    allowed_domains = ["zatrolene-hry.cz"]
 
     # 500KB
     maxBytes = 500 * 1024
@@ -56,7 +59,6 @@ class ZhBurzaSpider(Spider):
         yield Request(
             url='https://www.zatrolene-hry.cz/bazar/',
             callback=self.parse,
-            meta={"playwright": True},
         )
 
     def parse(self, response):
@@ -67,7 +69,6 @@ class ZhBurzaSpider(Spider):
             yield Request(
                 url=PAGINATION_TEMPLATE.format(page=page),
                 callback=self.parse_adverts,
-                meta={"playwright": True},
             )
 
     def parse_adverts(self, response):
@@ -78,7 +79,6 @@ class ZhBurzaSpider(Spider):
                 yield Request(
                     url=full_link,
                     callback=self.parse_advert_details,
-                    meta={"playwright": True},
                 )
             else:
                 self.logger.warning("Link not found")

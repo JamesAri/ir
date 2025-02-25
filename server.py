@@ -1,6 +1,5 @@
 # To test the retry mechanism
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import random
 
 
 class TestRetryHandler(BaseHTTPRequestHandler):
