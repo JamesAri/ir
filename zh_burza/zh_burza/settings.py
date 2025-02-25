@@ -82,25 +82,12 @@ RETRY_TIMES = 5
 RETRY_BACKOFF_MAX = 10  # custom setting
 RETRY_HTTP_CODES = [500, 502, 503, 504, 522, 524, 408, 429]
 
-
-# ======= Playwright settings =======
-
-DOWNLOAD_HANDLERS = {
-    "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-    "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-}
-PLAYWRIGHT_LAUNCH_OPTIONS = {
-    'headless': True,
-    "timeout": 15 * 1000,  # wait 15 seconds
-}
-PLAYWRIGHT_BROWSER_TYPE = "firefox"
-
-
 # ======= Cookies & Sessions =======
 COOKIES_ENABLED = True
 
 
 # ======= Logging =======
+
 if not os.path.exists('logs'):
     os.makedirs('logs')
 

@@ -1,3 +1,2 @@
 Scrapy==2.12.0
-scrapy-playwright==0.0.43
 fake-useragent==2.0.3
