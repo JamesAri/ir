@@ -2,8 +2,6 @@ from scrapy import signals
 from scrapy.spiders import Spider
 from scrapy.http import Request
 import sys
-from scrapy_playwright.page import PageMethod
-
 
 from io import StringIO
 from html.parser import HTMLParser

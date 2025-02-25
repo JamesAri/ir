@@ -1,6 +1,7 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+import os
 
 BOT_NAME = "zh_burza"
 
@@ -100,6 +101,9 @@ COOKIES_ENABLED = True
 
 
 # ======= Logging =======
+if not os.path.exists('logs'):
+    os.makedirs('logs')
+
 LOG_ENABLED = True
 LOG_LEVEL = 'WARNING'  # Only log errors
 LOG_FILE = 'logs/errors.log'  # Log file path
