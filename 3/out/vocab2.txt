@@ -253,7 +253,7 @@ originalni 10
 nemecka 10
 miniatures 10
 mindoku 10
-2edice 10
+2[edice] 10
 original 10
 kouknete 10
 too 10
@@ -650,7 +650,7 @@ predaja 4
 prepocitano 4
 odpovedi 4
 legend 4
-2rozsireni 4
+2[expanze] 4
 zetonu 4
 modra 4
 doupe 4
@@ -696,7 +696,7 @@ opotrebena 4
 naprosto 4
 vetsina 4
 paladinove 4
-4edice 4
+4[edice] 4
 factory 4
 pilire 4
 cene 4
@@ -790,7 +790,7 @@ codex 4
 naturalis 4
 zbozi 4
 plastovych 4
-3edice 4
+3[edice] 4
 nenajdu 4
 svatyne 4
 zaslani 4
@@ -1040,7 +1040,7 @@ kusy 3
 samostatne 3
 sherlock 3
 nesehnatelne 3
-3rozsireni 3
+3[expanze] 3
 rage 3
 uzasne 3
 nemeckou 3
@@ -1258,7 +1258,7 @@ srdce 2
 anglicku 2
 kickstartera 2
 orleans 2
-8edice 2
+8[edice] 2
 hraca 2
 podarilo 2
 arcane 2
@@ -3028,7 +3028,7 @@ afrika 1
 undaunted 1
 knihy 1
 dnd 1
-5edice 1
+5[edice] 1
 harrow 1
 county 1
 milujete 1
@@ -3114,7 +3114,7 @@ zpracovana 1
 oceni 1
 vlackovych 1
 mimojine 1
-150edice 1
+150[edice] 1
 trate 1
 vlacku 1
 agility 1
@@ -3692,7 +3692,7 @@ peti 1
 vypravenim 1
 umrtich 1
 obeti 1
-1edice 1
+1[edice] 1
 birds 1
 slepeny 1
 ktereho 1
@@ -4544,7 +4544,7 @@ carcassone 1
 koupene 1
 nekdy 1
 kousek 1
-1rozsireni 1
+1[expanze] 1
 braskovi 1
 patalie 1
 miru 1

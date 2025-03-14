@@ -335,7 +335,7 @@ byly 10
 přes 10
 Predam 10
 Mindoku 10
-2edice 10
+2[EDICE] 10
 Monster 10
 Anglická 10
 Too 10
@@ -815,7 +815,7 @@ Road 4
 predaja 4
 přepočítáno 4
 odpovědi 4
-2rozsireni 4
+2[EXPANZE] 4
 Chybí 4
 více 4
 Jinak 4
@@ -862,7 +862,7 @@ Evropa 4
 Origins 4
 češtine 4
 Paladinové 4
-4edice 4
+4[EDICE] 4
 Pilíře 4
 krabičky 4
 Vzestup 4
@@ -969,7 +969,7 @@ bude 4
 zboží 4
 plastových 4
 detektivní 4
-3edice 4
+3[EDICE] 4
 nenajdu 4
 Svatyně 4
 zaslání 4
@@ -1251,7 +1251,7 @@ nerozbaleno 3
 samostatně 3
 Sherlock 3
 příliš 3
-3rozsireni 3
+3[EXPANZE] 3
 jedno 3
 německou 3
 mohu 3
@@ -1513,7 +1513,7 @@ mnou 2
 srdce 2
 anglickú 2
 Orléans 2
-8edice 2
+8[EDICE] 2
 nakonec 2
 Kinghill 2
 Trosečníci 2
@@ -3694,7 +3694,7 @@ Afrika 1
 Undaunted 1
 knihy 1
 DnD 1
-5edice 1
+5[EDICE] 1
 Harrow 1
 County 1
 Milujete 1
@@ -3797,7 +3797,7 @@ zpracovaná 1
 ocení 1
 vláčkových 1
 mimojiné 1
-150edice 1
+150[EDICE] 1
 tratě 1
 vláčků 1
 Agility 1
@@ -4510,7 +4510,7 @@ vyprávěním 1
 úmrtích 1
 obětí 1
 místa 1
-1edice 1
+1[EDICE] 1
 Birds 1
 slepený 1
 kterého 1
@@ -5597,7 +5597,7 @@ koupené 1
 někdy 1
 kousek 1
 2000, 1
-1rozsireni 1
+1[EXPANZE] 1
 Bráškovi 1
 patálie 1
 Aukce 1

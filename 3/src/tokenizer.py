@@ -66,9 +66,9 @@ class RegexMatchTokenizer(Tokenizer):
         for match in re.finditer(re.compile(self.pattern, re.UNICODE | re.IGNORECASE), document):
             token_type = TokenType(match.lastindex)
             if token_type == TokenType.EDITION:
-                token = Token(match.group(3) + 'edice', match.start(), match.end() - match.start(), token_type)
+                token = Token(match.group(3) + '[EDICE]', match.start(), match.end() - match.start(), token_type)
             elif token_type == TokenType.EXTENSION:
-                token = Token(match.group(4) + 'rozsireni', match.start(), match.end() - match.start(), token_type)
+                token = Token(match.group(4) + '[EXPANZE]', match.start(), match.end() - match.start(), token_type)
             else:
                 token = Token(match.group(), match.start(), match.end() - match.start(), token_type)
             tokens.append(token)

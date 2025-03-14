@@ -1,18 +1,7 @@
-from dataclasses import dataclass
 from collections import defaultdict
 import json
 from typing import Iterable
 from document import Document
-
-
-@dataclass
-class Posting:
-    doc_id: int
-    positions: list[int]
-
-    @property
-    def tf(self):
-        return len(self.positions)
 
 
 class PositionalIndex:
@@ -38,19 +27,10 @@ class PositionalIndex:
     def get_document_frequency(self, term: str):
         return len(self.index[term].keys()) if term in self.index else 0
 
-    def get_postings(self, term: str):
-        """
-        Returns the postings list for a given term.
-
-        The postings list is a dictionary where the keys are document IDs
-        and the values are lists of positions at which the term occurs in the document
-        """
-        return self.index[term] if term in self.index else None
-
     def get_term_frequency(self, term: str, doc_id: int):
         positions = self.get_positions(term, doc_id)
         return len(positions) if positions else 0
-
+    
     def get_positions(self, term: str, doc_id: int):
         postings = self.get_postings(term)
         return postings[doc_id] if postings and doc_id in postings else None
@@ -73,6 +53,15 @@ class PositionalIndex:
     def get_avg_document_length(self):
         doc_ids = self.documents_dict.keys()
         return sum([self.get_document_length(doc_id) for doc_id in doc_ids]) / self.get_documents_count()
+    
+    def get_postings(self, term: str):
+        """
+        Returns the postings list for a given term.
+
+        The postings list is a dictionary where the keys are document IDs
+        and the values are lists of positions at which the term occurs in the document
+        """
+        return self.index[term] if term in self.index else None
 
     def __repr__(self):
         return json.dumps(
