@@ -112,7 +112,8 @@ class SearchEngine:
                 df_vector=self.df_vector,
                 total_documents=self.total_documents,
             )
-            print("doc_tf_idf_vector", doc_tf_idf_vector)
+            print(f'Document {doc.doc_id}: doc_tf_idf_vector', doc_tf_idf_vector)
+            
 
             # optimiziaiton - calculate only non-zero dot products - denominator still must use the whole document vector
             doc_tf_idf_vector_trimmed = self.get_trimmed_doc_vector(

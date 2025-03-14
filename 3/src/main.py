@@ -19,7 +19,7 @@ pipeline = pre.PreprocessingPipeline([
     pre.WhitespaceStripPreprocessor(),
     pre.NumberPreprocessor(),
     pre.TokenLengthPreprocessor(min_length=2),
-    # pre.LemmatizationPreprocessor(),
+    # pre.LemmatizationPreprocessor(), // tunred off so you can test search engine faster
     pre.UnidecodePreprocessor(),
 ])
 
@@ -51,7 +51,6 @@ def print_top_k(iterable: list, k: int):
         if i >= k:
             break
 
-
 if __name__ == '__main__':
     print('\nRunning 1. Task from Courseware')
     documents = [
@@ -64,9 +63,34 @@ if __name__ == '__main__':
     k = 10
     result = search.search(query="krásné město", k=k, method='ltc.ltc')
     print_top_k(result, k)
+    
 
 if __name__ == '__main__':
-    print('\nRunning 5. Task from Courseware - sraching on our own data')
+    print('\nRunning 2. Task from Courseware')
+    documents = [
+        Document('tropical fish include fish found in tropical enviroments').tokenize(),
+        Document('fish live in a sea').tokenize(),
+        Document('tropical fish are popular aquarium fish').tokenize(),
+        Document('fish also live in Czechia').tokenize(),
+        Document('Czechia is a country').tokenize(),
+    ]
+
+    search = SearchEngine(PositionalIndex(documents))
+    k = 10
+    
+    query = "tropical fish sea"
+    print(f"\nQuery: {query}")    
+    result = search.search(query=query, k=k, method='ltc.ltc')
+    print_top_k(result, k)
+    
+    query = "tropical fish"
+    print(f"\nQuery: {query}")
+    result = search.search(query=query, k=k, method='ltc.ltc')
+    print_top_k(result, k)
+
+
+if __name__ == '__main__':
+    print('\nRunning 5. Task from Courseware - searching on our own data')
     script_dir = os.path.dirname(os.path.abspath(__file__))
     input_file = os.path.join(script_dir, "..", "data", "sample.json")
     out_dir = os.path.normpath(os.path.join(script_dir, "..", "out"))
@@ -103,9 +127,11 @@ if __name__ == '__main__':
 
     k = 10
     result = search.search(query="Root Hra pouze jednou hraná, super stav", k=k, method='ltu.ltc')
-
-    ###### Output ######
     print_top_k(result, k=k)
+    result = search.search(query="War nehrano", k=k, method='ltu.ltc')
+    print_top_k(result, k=k)
+    
+    ###### Output ######
     print(f"Vocabulary written to {vocab_1_file} (without preprocessing)")
     print(f"Vocabulary written to {vocab_2_file} (preprocessed)")
     print(f"Positional index written to {index_1_file} (without preprocessing)")
