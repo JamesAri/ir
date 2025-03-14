@@ -76,7 +76,6 @@ class TfIdf:
         tf_idf_vect = TfIdf.tf_idf(tf_idf_vect, df_vector, total_documents)
         l2_norm = VectorUtils.compute_magnitude(tf_idf_vect)
         tf_idf_vect = [tf_idf / l2_norm for tf_idf in tf_idf_vect] if l2_norm else tf_idf_vect
-        print('l2_norm:', l2_norm)
         return tf_idf_vect
 
     @staticmethod

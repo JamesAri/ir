@@ -57,7 +57,6 @@ class SearchEngine:
         # prepare query vector
         query_index = PositionalIndex([query_doc])
         query_unique_terms = query_index.get_unique_terms()
-        print(query_unique_terms)
 
         # collection metrics
         total_documents = self.documents_index.get_documents_count()
@@ -69,14 +68,11 @@ class SearchEngine:
             df_vector=[self.documents_index.get_document_frequency(term) for term in query_unique_terms],
             total_documents=total_documents
         )
-        print('query_tf_idf_vector', query_tf_idf_vector)
 
         # find top k documents
         collection_terms = self.documents_index.get_unique_terms()
-        print(collection_terms)
 
         for doc in relevant_documents:
-            print('processing', doc)
             query_term_to_doc_vector_mapping = dict()
             tf_vector = []
             df_vector = []
@@ -89,7 +85,6 @@ class SearchEngine:
                     if term in query_unique_terms:
                         query_term_to_doc_vector_mapping[term] = i
 
-            print(df_vector)
             doc_tf_idf_vector = TfIdf.ltu_weighting(
                 tf_vector=tf_vector,
                 df_vector=df_vector,
@@ -98,7 +93,6 @@ class SearchEngine:
                 avg_document_length=avg_document_length,
                 slope=0.5
             )
-            print('doc_tf_idf_vector', doc_tf_idf_vector)
 
             # optimiziaiton - calculate only non-zero dot products
             doc_tf_idf_vector_mapped = [doc_tf_idf_vector[query_term_to_doc_vector_mapping[term]] for term in query_unique_terms]
