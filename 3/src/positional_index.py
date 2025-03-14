@@ -1,8 +1,8 @@
+from dataclasses import dataclass
 from collections import defaultdict
 import json
 from typing import Iterable
 from document import Document
-from dataclasses import dataclass
 
 
 @dataclass
@@ -19,35 +19,60 @@ class PositionalIndex:
 
     index: defaultdict[str, defaultdict[int, list[int]]]
 
-    def __init__(self, documents=None):
+    documents_dict: dict[int, Document]
+    """doc_id -> Document"""
+
+    def __init__(self, documents: Iterable[Document]):
         self.index = defaultdict(lambda: defaultdict(list))
-        if documents:
-            self.add_documents(documents)
+        self.documents_dict = {doc.doc_id: doc for doc in documents}
+        self._add_documents(self.get_documents())
 
-    def add_documents(self, documents: Iterable[Document]):
-        [self.add_document(doc) for doc in documents]
+    def _add_documents(self, documents: Iterable[Document]):
+        for doc in documents:
+            self._add_document(doc)
 
-    def add_document(self, doc: Document):
+    def _add_document(self, doc: Document):
         for token in doc.tokens:
             self.index[token.processed_form][doc.doc_id].append(token.position)
 
-    def get_index(self):
-        return self.index
+    def get_document_frequency(self, term: str):
+        return len(self.index[term].keys()) if term in self.index else 0
 
-    def get_document_frequency(self, term):
-        return len(self.index[term])
+    def get_postings(self, term: str):
+        """
+        Returns the postings list for a given term.
 
-    def get_term_frequency(self, term, doc_id):
-        return len(self.index[term][doc_id])
+        The postings list is a dictionary where the keys are document IDs
+        and the values are lists of positions at which the term occurs in the document
+        """
+        return self.index[term] if term in self.index else None
 
-    def get_postings(self, term):
-        return self.index[term]
+    def get_term_frequency(self, term: str, doc_id: int):
+        positions = self.get_positions(term, doc_id)
+        return len(positions) if positions else 0
 
-    def get_positions(self, term, doc_id):
-        return self.index[term][doc_id]
+    def get_positions(self, term: str, doc_id: int):
+        postings = self.get_postings(term)
+        return postings[doc_id] if postings and doc_id in postings else None
 
-    def get_document_count(self):
-        return len(self.index)
+    def get_document_length(self, doc_id: int):
+        return len(self.documents_dict[doc_id].tokens)
+
+    def get_documents(self):
+        return list(self.documents_dict.values())
+
+    def get_documents_count(self):
+        return len(self.documents_dict)
+
+    def get_documents_dict(self):
+        return self.documents_dict
+
+    def get_unique_terms(self):
+        return list(self.index.keys())
+
+    def get_avg_document_length(self):
+        doc_ids = self.documents_dict.keys()
+        return sum([self.get_document_length(doc_id) for doc_id in doc_ids]) / self.get_documents_count()
 
     def __repr__(self):
         return json.dumps(
