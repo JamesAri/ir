@@ -98,19 +98,21 @@ class SearchEngine:
         query_term_to_doc_vector_index_mapping: dict[str, int],
     ):
         # get query vector
-        query_tf_idf_vector = TfIdf.ltc_weighting(
+        query_tf_idf_vector = TfIdf.ltn_weighting(
             tf_vector=[query_index.get_term_frequency(term=term, doc_id=query_doc.doc_id) for term in query_unique_terms],
             df_vector=[self.documents_index.get_document_frequency(term) for term in query_unique_terms],
             total_documents=self.total_documents
         )
+        print("query_tf_idf_vector", query_tf_idf_vector)
 
         # get top k documents
         for doc in relevant_documents:
-            doc_tf_idf_vector = TfIdf.ltc_weighting(
+            doc_tf_idf_vector = TfIdf.ltn_weighting(
                 tf_vector=[self.documents_index.get_term_frequency(term=term, doc_id=doc.doc_id) for term in self.collection_terms],
                 df_vector=self.df_vector,
                 total_documents=self.total_documents,
             )
+            print("doc_tf_idf_vector", doc_tf_idf_vector)
 
             # optimiziaiton - calculate only non-zero dot products - denominator still must use the whole document vector
             doc_tf_idf_vector_trimmed = self.get_trimmed_doc_vector(
