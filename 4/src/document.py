@@ -24,7 +24,7 @@ class Document:
         return self
     
     def get_unique_terms(self):
-        return set(token.processed_form for token in self.tokens)
+        return list(set(token.processed_form for token in self.tokens))
 
     def __repr__(self):
         return f"Document {self.doc_id}: {self.text}"

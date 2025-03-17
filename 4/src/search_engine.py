@@ -77,7 +77,7 @@ class SearchEngine:
         k: int,
         get_query_tf_idf_vector: Callable[[List[float], List[int]], List[float]],
         get_doc_tf_idf_vector: Callable[[Document, List[float], List[int]], List[float]],
-        get_score: Callable[[List[float], List[float]], float],
+        get_score: Callable[[List[float], List[float], List[float]], float],
     ):
         # prepare min heap for top k results
         heap = MinHeap(max_size=k)
@@ -110,86 +110,72 @@ class SearchEngine:
                 query_unique_terms=query_unique_terms,
                 query_term_to_doc_vector_entry_map=query_term_to_doc_vector_entry_map
             )
-            score = get_score(query_vector=query_tf_idf_vector, doc_vector=doc_tf_idf_vector_mapped_to_query_vector)
+
+            score = get_score(
+                query_vector=query_tf_idf_vector,
+                doc_vector=doc_tf_idf_vector,
+                doc_vector_mapped=doc_tf_idf_vector_mapped_to_query_vector,
+            )
             heap.push(HeapEntry(score=score, document=doc))
 
         return sorted(heap.get_array(), reverse=True)
 
     def ltc_ltc_search(self, query: str, k: int):
-        def get_query_tf_idf_vector(tf_vector: List[float], df_vector: List[int]):
-            return  TfIdf.ltn_weighting(
-            tf_vector=tf_vector,
-            df_vector=df_vector,
-            total_documents=self.total_documents
-        )
-
-        def get_doc_tf_idf_vector(doc: Document, tf_vector: List[float], df_vector: List[int]):
-            return TfIdf.ltn_weighting(
-                tf_vector=tf_vector,
-                df_vector=df_vector,
-                total_documents=self.total_documents,
-            )
-
-        def get_score(query_vector: List[float], doc_vector: List[float]):
-            return VectorSimilarity.calculate_cosine_similarity_with_norm(
-                vector_a=query_vector,
-                vector_b=doc_vector,
-                norm=VectorUtils.compute_magnitude(query_vector) * VectorUtils.compute_magnitude(doc_vector),
-            )
-        
         return self._search(
             query=query,
             k=k,
-            get_doc_tf_idf_vector=get_doc_tf_idf_vector,
-            get_query_tf_idf_vector=get_query_tf_idf_vector,
-            get_score=get_score,
+            get_query_tf_idf_vector=lambda tf_vector, df_vector: TfIdf.ltc_weighting(
+                tf_vector=tf_vector,
+                df_vector=df_vector,
+                total_documents=self.total_documents
+            ),
+            get_doc_tf_idf_vector=lambda doc, tf_vector, df_vector: TfIdf.ltc_weighting(
+                tf_vector=tf_vector,
+                df_vector=df_vector,
+                total_documents=self.total_documents,
+            ),
+            get_score=lambda query_vector, doc_vector, doc_vector_mapped: VectorSimilarity.calculate_cosine_similarity_with_norm(
+                vector_a=query_vector,
+                vector_b=doc_vector_mapped,
+                norm=VectorUtils.compute_magnitude(query_vector) * VectorUtils.compute_magnitude(doc_vector),
+            )
         )
 
     def ltu_ltc_search(self, query: str, k: int):
-
-        def get_query_tf_idf_vector(tf_vector: List[float], df_vector: List[int]):
-            return TfIdf.ltc_weighting(
-            tf_vector=tf_vector,
-            df_vector=df_vector,
-            total_documents=self.total_documents
-        )
-
-        def get_doc_tf_idf_vector(doc: Document, tf_vector: List[float], df_vector: List[int]):
-            return TfIdf.ltu_weighting(
+        return self._search(
+            query=query,
+            k=k,
+            get_query_tf_idf_vector=lambda tf_vector, df_vector: TfIdf.ltc_weighting(
+                tf_vector=tf_vector,
+                df_vector=df_vector,
+                total_documents=self.total_documents
+            ),
+            get_doc_tf_idf_vector=lambda doc, tf_vector, df_vector: TfIdf.ltu_weighting(
                 tf_vector=tf_vector,
                 df_vector=df_vector,
                 total_documents=self.total_documents,
                 document_length=self.documents_index.get_document_length(doc.doc_id),
                 avg_document_length=self.avg_document_length,
-                slope=0.95
-            )
-
-        def get_score(query_vector: List[float], doc_vector: List[float]):
-            return VectorSimilarity.calculate_dot_product_score(
+                slope=0.75
+            ),
+            get_score=lambda query_vector, doc_vector, doc_vector_mapped: VectorSimilarity.calculate_dot_product_score(
                 vector_a=query_vector,
-                vector_b=doc_vector,
+                vector_b=doc_vector_mapped,
             )
-
-        return self._search(
-            query=query,
-            k=k,
-            get_query_tf_idf_vector=get_query_tf_idf_vector,
-            get_doc_tf_idf_vector=get_doc_tf_idf_vector,
-            get_score=get_score
         )
 
     def map_doc_vector_to_query_vector(
         self,
         doc_vector: list[float],
         query_unique_terms: list[str],
-        query_term_to_doc_vector_entry_map: dict[str, int]
+        query_term_to_doc_vector_entry_map: dict[str, float]
     ):
         """
         Returns a mapped document vector containing only the terms that are present in the query.
         Padded with zeros for query terms that are not present in the document.
         """
         return [
-            doc_vector[query_term_to_doc_vector_entry_map[term]] if term in query_term_to_doc_vector_entry_map else 0
+            doc_vector[query_term_to_doc_vector_entry_map[term]] if term in query_term_to_doc_vector_entry_map else 0.0
             for term in query_unique_terms
         ]
 

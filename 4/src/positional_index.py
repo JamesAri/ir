@@ -62,7 +62,7 @@ class PositionalIndex:
 
     def get_unique_terms(self, doc_id: int | None = None):
         if doc_id is None:
-            return set(self.index.keys())
+            return list(self.index.keys())
         else:
             return self.documents_dict[doc_id].get_unique_terms()
 
