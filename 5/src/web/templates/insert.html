@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insert New Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="top-bar">
+        <a href="{{ url_for('index') }}">Back to Search</a>
+    </div>
+
+	<div class="insert-container">
+		<h2>Insert New Document</h2>
+	
+		<form method="POST" class="insert-form">
+			<input type="hidden" name="action" value="insert">
+	
+			<div class="form-row">
+				<label for="title">Title:</label>
+				<input type="text" name="title" required>
+			</div>
+	
+			<div class="form-row">
+				<label for="text">Text:</label>
+				<textarea name="text" rows="6" required></textarea>
+			</div>
+	
+			<button type="submit">Add Document</button>
+		</form>
+	
+		<hr style="margin: 20px 0;">
+	
+		<form method="POST" class="insert-form">
+			<input type="hidden" name="action" value="save">
+			<button type="submit">Save Data</button>
+		</form>
+	</div>
+	
+</body>
+</html>
+
+
+
+

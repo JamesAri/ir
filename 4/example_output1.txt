@@ -1,0 +1,81 @@
+python3 src/parser.py 
+
+Running Boolean search task on cz data from courseware (documents.json)
+Tokenizing documents: 100%|████████████████████████████████████████████████████████████████████████████████████████| 81734/81734 [00:21<00:00, 3806.46it/s]
+Processing document 81734/81734: 100%|████████████████████████████████████████████████████████████████████████████| 81734/81734 [00:07<00:00, 10969.61it/s]
+Creating inverted index for preprocessed documents
+Indexing documents: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 81734/81734 [00:15<00:00, 5252.51it/s]
+Saving inverted index to file (pickle)
+Note: should be around 1,1GB for the courseware data
+
+QUERY['marvanové AND ods']:
+1. (Doc Id: d1641)  Čtyři a půl roku uplynulo ode dne
+2. (Doc Id: d1642)  POLITICKÝ DOTAZNÍK  Do politiky v
+3. (Doc Id: d15734)  Předsedkyně unionistů Hana Marva
+Skipped 53 documents
+
+QUERY['marvanové AND ods AND NOT nechybovala']:
+1. (Doc Id: d1641)  Čtyři a půl roku uplynulo ode dne
+2. (Doc Id: d1642)  POLITICKÝ DOTAZNÍK  Do politiky v
+3. (Doc Id: d15734)  Předsedkyně unionistů Hana Marva
+Skipped 52 documents
+
+QUERY['marvanové AND ods OR NOT nechybovala']:
+1. (Doc Id: d1)  304 miliony lidí ve 12 zemích si zač
+2. (Doc Id: d14000)  Česká republika se sice zatím k 
+3. (Doc Id: d2)  V době, kdy eurobankomaty už několik
+Skipped 81728 documents
+
+QUERY['ods AND NOT marvanové']:
+1. (Doc Id: d47062)  Družstva mohou na volbách vyděla
+2. (Doc Id: d40135)  Politici uložili prodej městskýc
+3. (Doc Id: d3)  Dva na jednoho. Zeman a Klaus ve své
+Skipped 2787 documents
+
+QUERY['Marvanové AND NOT ods']:
+1. (Doc Id: d17950)  Ad LN 8. 6.: Dopis očerňující Ma
+2. (Doc Id: d4836)  Koalice: do voleb spolu, pak se t
+3. (Doc Id: d20576)  Ad LN 14. 9.: Vypukla vládní kri
+Skipped 83 documents
+
+QUERY['jahoda']:
+1. (Doc Id: d68755)  Stolní tenisté: pouze porážky  P
+2. (Doc Id: d70439)  Jiří Stivín bude hvězdou koncert
+3. (Doc Id: d46864)  Česká galerie se nezaměřuje jen 
+Skipped 15 documents
+
+QUERY['citron']:
+1. (Doc Id: d81321)  Slavnostní stolování se sektem  
+2. (Doc Id: d9177)  Policie našla u Srby zbraně a 30 
+3. (Doc Id: d45249)  ŠKOLÁCI ROZDÁVALI ŘIDIČŮM OVOCE 
+Skipped 17 documents
+
+QUERY['jahoda AND citron']:
+
+QUERY['dušníků']:
+1. (Doc Id: d58797)  Mělnicko patří k nejvíce postiže
+2. (Doc Id: d9099)  Testy prokázaly zamoření odpadu  
+
+QUERY['dušníků AND zdeněk']:
+
+QUERY['jahoda AND NOT zdeněk']:
+1. (Doc Id: d68755)  Stolní tenisté: pouze porážky  P
+2. (Doc Id: d70439)  Jiří Stivín bude hvězdou koncert
+3. (Doc Id: d46864)  Česká galerie se nezaměřuje jen 
+Skipped 13 documents
+
+QUERY['sparta AND NOT praha']:
+1. (Doc Id: d11183)  Kouřit nepřestanu. Pořád mě to b
+2. (Doc Id: d69772)  Hradecká Slavia stále vede, vyhr
+3. (Doc Id: d64520)  Košíkáře čekají před ligou posle
+Skipped 528 documents
+
+QUERY['sparta AND praha']:
+1. (Doc Id: d34915)  Pražany čeká v ČFL boj o postup 
+2. (Doc Id: d64530)  České kluby bez prohry i bez fan
+3. (Doc Id: d47079)  Bohemians našli sponzora  Fotbal
+Skipped 406 documents
+
+=== Finished processing all queries ===
+Showing only 3 documents per query
+Showing only first 50 characters of each document

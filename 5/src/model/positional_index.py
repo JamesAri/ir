@@ -2,7 +2,8 @@ from collections import defaultdict
 import json
 from typing import Iterable
 from tqdm import tqdm
-from document import Document
+from model.document import Document
+
 
 class PositionalIndex:
 
@@ -13,17 +14,20 @@ class PositionalIndex:
 
     def __init__(self, documents: Iterable[Document], show_progress: bool = False):
         self.index = defaultdict(self._index_posting_factory)
-        self.documents_dict = {doc.doc_id: doc for doc in documents}
+
+        self.documents_dict = {}
+
         if show_progress:
-            self._add_documents(tqdm(documents, desc="Indexing documents"))
+            self.add_documents(tqdm(documents, desc="Indexing documents"))
         else:
-            self._add_documents(documents)
+            self.add_documents(documents)
 
-    def _add_documents(self, documents: Iterable[Document]):
+    def add_documents(self, documents: Iterable[Document]):
         for doc in documents:
-            self._add_document(doc)
+            self.add_document(doc)
 
-    def _add_document(self, doc: Document):
+    def add_document(self, doc: Document):
+        self.documents_dict[doc.doc_id] = doc
         for token in doc.tokens:
             self.index[token.processed_form][doc.doc_id].append(token.position)
 
@@ -50,9 +54,6 @@ class PositionalIndex:
     def get_document_length(self, doc_id: int):
         return len(self.documents_dict[doc_id].tokens)
 
-    def get_documents(self):
-        return list(self.documents_dict.values())
-
     def get_documents_count(self):
         return len(self.documents_dict)
 
@@ -67,13 +68,16 @@ class PositionalIndex:
 
     def get_avg_document_length(self):
         doc_ids = self.documents_dict.keys()
-        return sum([self.get_document_length(doc_id) for doc_id in doc_ids]) / self.get_documents_count()
+        return (
+            sum([self.get_document_length(doc_id) for doc_id in doc_ids])
+            / self.get_documents_count()
+        )
 
     def get_postings(self, term: str):
         """
-        Returns the postings list for a given term.
+        Returns the posting list for a given term.
 
-        The postings list is a dictionary where the keys are document IDs
+        Posting list is a dictionary where the keys are document IDs
         and the values are lists of positions at which the term occurs in the document
         """
         return self.index[term] if term in self.index else None
@@ -82,13 +86,11 @@ class PositionalIndex:
         return json.dumps(
             {
                 term: {
-                    doc_id: {
-                        "tf": len(positions),
-                        "positions": positions
-                    }
+                    doc_id: {"tf": len(positions), "positions": positions}
                     for doc_id, positions in postings.items()
-                } for term, postings in self.index.items()
+                }
+                for term, postings in self.index.items()
             },
             indent=2,
-            ensure_ascii=False
+            ensure_ascii=False,
         )

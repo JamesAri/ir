@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="top-bar">
+        <a href="javascript:history.back()">Back to Search</a>
+    </div>
+
+    <div class="settings-container">
+        <h2>Settings</h2>
+		<form method="POST">
+			<div class="form-row">
+				<label for="dataset">Choose Dataset:</label>
+				<select name="dataset">
+					<option value="zh" {% if current_dataset == 'zh' %}selected{% endif %}>Zatrolene hry</option>
+					<option value="cw" {% if current_dataset == 'cw' %}selected{% endif %}>Courseware data</option>
+				</select>
+			</div>
+
+			<div class="form-row">
+				<label for="engine">Choose Search Engine:</label>
+				<select name="engine">
+					<option value="lsa_se" {% if current_engine == 'lsa_se' %}selected{% endif %}>LSA</option>
+					<option value="boolean_se" {% if current_engine == 'boolean_se' %}selected{% endif %}>Boolean</option>
+					<option value="sent_trans_se" {% if current_engine == 'sent_trans_se' %}selected{% endif %}>Sentence transformers</option>
+					<option value="tfidf_se" {% if current_engine == 'tfidf_se' %}selected{% endif %}>TF-IDF</option>
+				</select>
+			</div>
+
+			<br>
+			<button type="submit">Save Settings</button>
+		</form>
+    </div>
+</body>
+</html>

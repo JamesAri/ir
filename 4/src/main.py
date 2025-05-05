@@ -57,14 +57,13 @@ def load_index(file):
         return pickle.load(f)
 
 if __name__ == 'X__main__':
-    print('\nRunning Boolean search task on cz data from coursweare (documents.json)')
     script_dir = os.path.dirname(os.path.abspath(__file__))
     input_file = os.path.join(script_dir, "..", "data", "documents.json")
     out_dir = os.path.normpath(os.path.join(script_dir, "..", "out"))
     os.makedirs(out_dir, exist_ok=True)
-    
+
     index_file = os.path.join(out_dir, "index.pkl")
-    
+
     if os.path.exists(index_file):
         print(f'Loading positional index from file {index_file}')
         index: PositionalIndex = load_index(index_file)
@@ -91,11 +90,11 @@ if __name__ == 'X__main__':
         vocab_2_file = os.path.join(out_dir, "vocab2.txt")
         write_vocabulary(documents, vocab_2_file)
 
-        ###### SearchEngine ######
-        
+        ###### Positional Index ######
+
         print('Creating positional index for preprocessed documents')
         index = PositionalIndex(documents, show_progress=True)
-        
+
         print('Saving positional index to file (pickle)')
         print('Note: should be around 1,1GB for the courseware data')
         save_index(index, index_file)
@@ -104,13 +103,13 @@ if __name__ == 'X__main__':
         print(f"Vocabulary written to {vocab_1_file} (without preprocessing)")
         print(f"Vocabulary written to {vocab_2_file} (preprocessed)")
         print(f"Index saved to {index_file} (raw)")
-    
-    
+
+
     search = SearchEngine(index, pipeline)
     k = 10
     result = search.search(query="Klaus varoval", k=k, method='ltu.ltc')
     print_top_k(result, k=k)
-    
+
 if __name__ == '__main__':
     print('\nRunning 1. Task from Courseware')
     documents = [
@@ -137,19 +136,19 @@ if __name__ == 'X__main__':
 
     search = SearchEngine(PositionalIndex(documents))
     k = 10
-    
+
     query = "tropical fish sea"
-    print(f"\nQuery: {query}")    
+    print(f"\nQuery: {query}")
     result = search.search(query=query, k=k, method='ltc.ltc')
     print_top_k(result, k)
-    
+
     query = "tropical fish"
     print(f"\nQuery: {query}")
     result = search.search(query=query, k=k, method='ltc.ltc')
     print_top_k(result, k)
 
 
-if __name__ == '__main__':
+if __name__ == 'X__main__':
     print('\nRunning 5. Task from Courseware - searching on our own data')
     script_dir = os.path.dirname(os.path.abspath(__file__))
     input_file = os.path.join(script_dir, "..", "data", "sample.json")
@@ -158,7 +157,9 @@ if __name__ == '__main__':
 
     documents = []
     with open(input_file, 'r', encoding="utf-8") as f:
-        documents = [Document(parse_zatrolene_hry_document_text(doc)).tokenize() for doc in json.load(f)]
+        tqdm_json = tqdm(json.load(f), desc="Tokenizing documents")
+        for doc in tqdm_json:
+            documents.append(Document(parse_zatrolene_hry_document_text(doc)).tokenize())
 
     ###### Without Preprocessing ######
 
@@ -172,7 +173,7 @@ if __name__ == '__main__':
 
     tqdm_documents = tqdm(documents)
     for i, doc in enumerate(tqdm_documents, 1):
-        tqdm_documents.set_description(f"[>] Processing document {i}/{len(documents)}")
+        tqdm_documents.set_description(f"Processing document {i}/{len(documents)}")
         doc.preprocess(pipeline)
 
     vocab_2_file = os.path.join(out_dir, "vocab2.txt")
@@ -190,7 +191,7 @@ if __name__ == '__main__':
     print_top_k(result, k=k)
     result = search.search(query="War nehrano", k=k, method='ltu.ltc')
     print_top_k(result, k=k)
-    
+
     ###### Output ######
     print(f"Vocabulary written to {vocab_1_file} (without preprocessing)")
     print(f"Vocabulary written to {vocab_2_file} (preprocessed)")

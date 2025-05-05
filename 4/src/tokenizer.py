@@ -20,8 +20,8 @@ regex_map = {
     TokenType.EDITION: r"\d+(?:\.)?(?:th|nd|rd|st)?\s*(?:edition|edice|edici|vydani|vydání|vydanie|vyd\.|díl|dil|sérii|serii)\w*",
     TokenType.EXTENSION: r"\d+(?:\.)?(?:th|nd|rd|st)?\s*(?:rozšíření|rozsireni|rozš|rozs)\w*",
     TokenType.NUMBER: r"(\d+[.,]?\d*)",
-    TokenType.WORD: r"(\w+)",
-    # TokenType.WORD: r"(\w{2,})",
+    # TokenType.WORD: r"(\w+)",
+    TokenType.WORD: r"(\w{2,})",
     TokenType.PUNCT: r"([^\w\s]+)",
 }
 

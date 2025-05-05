@@ -3,7 +3,6 @@ from typing import Iterable
 import preprocess as pre
 from tokenizer import RegexMatchTokenizer, Tokenizer
 
-
 class Document:
     _doc_id_counter = 0
 

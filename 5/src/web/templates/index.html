@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="top-bar">
+        <a href="{{ url_for('settings') }}">Settings</a>
+        <a href="{{ url_for('insert') }}">Insert</a>
+    </div>
+    <div class="search-container">
+        <form method="POST">
+            <input type="text" name="query" value="{{ query }}" placeholder="Search..." />
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+
+	<div class="results">
+	{% if results is defined %}
+		{% if results %}
+			{% for result in results %}
+				<p><a href="{{ url_for('document', doc_id=result.doc_id, query=query) }}">{{ result.title|safe }}</a></p>
+			{% endfor %}
+		{% else %}
+			<img width="100%" height="100%" src="https://global-uploads.webflow.com/63c864d518fab2c78dbdbef6/63c864d518fab282d1bdc13d_empty.gif">
+		{% endif %}
+	{% else %}
+		<p>Search for something!</p>
+	{% endif %}
+</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ doc.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="top-bar">
+		<a href="javascript:history.back()">Back to Search</a>
+    </div>
+    <div class="document-view">
+        <h2>{{ title|safe }}</h2>
+        <p>{{ text|safe }}</p>
+    </div>
+</body>
+</html>
